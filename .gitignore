@@ -1,0 +1,49 @@
+# ==============================
+# Python
+# ==============================
+__pycache__/
+*.py[cod]
+*.pyo
+.pytest_cache/
+.mypy_cache/
+
+# Ambientes virtuais
+venv/
+.venv/
+env/
+ENV/
+
+# ==============================
+# ROS 2 / Colcon
+# ==============================
+build/
+install/
+log/
+
+# ==============================
+# Gazebo / arquivos temporários
+# ==============================
+*.log
+*.tmp
+
+# ==============================
+# Resultados de testes e voos
+# ==============================
+resultados/logs/
+resultados/voos/
+resultados/graficos/
+resultados/imagens/
+
+# ==============================
+# VS Code
+# ==============================
+.vscode/*
+!.vscode/settings.json
+!.vscode/extensions.json
+
+# ==============================
+# Sistema operacional
+# ==============================
+.DS_Store
+Thumbs.db
+

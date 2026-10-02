@@ -1,0 +1,512 @@
+<?xml version="1.0" ?>
+<sdf version="1.10">
+
+  <model name="quadricoptero">
+
+    <!-- Corpo físico principal -->
+    <link name="base_link">
+
+      <pose>0 0 0.5 0 0 0</pose>
+
+      <inertial>
+        <mass>1.5</mass>
+        <inertia>
+          <ixx>0.02</ixx>
+          <iyy>0.02</iyy>
+          <izz>0.03</izz>
+          <ixy>0</ixy>
+          <ixz>0</ixz>
+          <iyz>0</iyz>
+        </inertia>
+      </inertial>
+
+      <!-- Colisão simplificada -->
+      <collision name="collision">
+        <geometry>
+          <box>
+            <size>0.40 0.40 0.15</size>
+          </box>
+        </geometry>
+      </collision>
+
+      <!-- Modelo 3D do S500 vindo do Ansys -->
+      <visual name="s500_visual">
+
+        <geometry>
+          <mesh>
+            <uri>model://quadricoptero/meshes/S500_Frame.stl</uri>
+            <scale>1 1 1</scale>
+          </mesh>
+        </geometry>
+
+      </visual>
+      <!-- ========================= -->
+      <!-- MOTORES DO S500 - VISUAL -->
+      <!-- ========================= -->
+
+      <!-- Motor 1 -->
+      <visual name="motor_1_visual">
+        <pose>0.15 0.15 0.05 0 0 0</pose>
+        <geometry>
+          <cylinder>
+            <radius>0.035</radius>
+            <length>0.06</length>
+          </cylinder>
+        </geometry>
+      </visual>
+
+      <!-- Motor 2 -->
+      <visual name="motor_2_visual">
+        <pose>-0.15 0.15 0.05 0 0 0</pose>
+        <geometry>
+          <cylinder>
+            <radius>0.035</radius>
+            <length>0.06</length>
+          </cylinder>
+        </geometry>
+      </visual>
+
+      <!-- Motor 3 -->
+      <visual name="motor_3_visual">
+        <pose>-0.15 -0.15 0.05 0 0 0</pose>
+        <geometry>
+          <cylinder>
+            <radius>0.035</radius>
+            <length>0.06</length>
+          </cylinder>
+        </geometry>
+      </visual>
+
+      <!-- Motor 4 -->
+      <visual name="motor_4_visual">
+        <pose>0.15 -0.15 0.05 0 0 0</pose>
+        <geometry>
+          <cylinder>
+            <radius>0.035</radius>
+            <length>0.06</length>
+          </cylinder>
+        </geometry>
+      </visual>
+<!-- ==================== HÉLICES ==================== -->
+
+<!-- Hélice do Motor 1 -->
+<visual name="helice_1_a">
+  <pose>0.15 0.15 0.09 0 0 0.25</pose>
+  <geometry>
+    <box>
+      <size>0.18 0.015 0.005</size>
+    </box>
+  </geometry>
+</visual>
+
+<visual name="helice_1_b">
+  <pose>0.15 0.15 0.09 0 0 -0.25</pose>
+  <geometry>
+    <box>
+      <size>0.18 0.015 0.005</size>
+    </box>
+  </geometry>
+</visual>
+
+
+<!-- Hélice do Motor 2 -->
+<visual name="helice_2_a">
+  <pose>-0.15 0.15 0.09 0 0 -0.25</pose>
+  <geometry>
+    <box>
+      <size>0.18 0.015 0.005</size>
+    </box>
+  </geometry>
+</visual>
+
+<visual name="helice_2_b">
+  <pose>-0.15 0.15 0.09 0 0 0.25</pose>
+  <geometry>
+    <box>
+      <size>0.18 0.015 0.005</size>
+    </box>
+  </geometry>
+</visual>
+
+
+<!-- Hélice do Motor 3 -->
+<visual name="helice_3_a">
+  <pose>-0.15 -0.15 0.09 0 0 0.25</pose>
+  <geometry>
+    <box>
+      <size>0.18 0.015 0.005</size>
+    </box>
+  </geometry>
+</visual>
+
+<visual name="helice_3_b">
+  <pose>-0.15 -0.15 0.09 0 0 -0.25</pose>
+  <geometry>
+    <box>
+      <size>0.18 0.015 0.005</size>
+    </box>
+  </geometry>
+</visual>
+
+
+<!-- Hélice do Motor 4 -->
+<visual name="helice_4_a">
+  <pose>0.15 -0.15 0.09 0 0 -0.25</pose>
+  <geometry>
+    <box>
+      <size>0.18 0.015 0.005</size>
+    </box>
+  </geometry>
+</visual>
+
+<visual name="helice_4_b">
+  <pose>0.15 -0.15 0.09 0 0 0.25</pose>
+  <geometry>
+    <box>
+      <size>0.18 0.015 0.005</size>
+    </box>
+  </geometry>
+</visual>
+</link>
+<!-- ========================================================= -->
+<!--                    ROTOR 1 - CCW                         -->
+<!-- ========================================================= -->
+
+<link name="rotor_1">
+  <pose>0.15 0.15 0.59 0 0 0</pose>
+
+  <inertial>
+    <mass>0.03</mass>
+    <inertia>
+      <ixx>0.00001</ixx>
+      <iyy>0.00001</iyy>
+      <izz>0.00002</izz>
+      <ixy>0</ixy>
+      <ixz>0</ixz>
+      <iyz>0</iyz>
+    </inertia>
+  </inertial>
+
+  <visual name="rotor_1_visual">
+    <geometry>
+      <cylinder>
+        <radius>0.11</radius>
+        <length>0.005</length>
+      </cylinder>
+    </geometry>
+  </visual>
+</link>
+
+<joint name="rotor_1_joint" type="revolute">
+  <parent>base_link</parent>
+  <child>rotor_1</child>
+
+  <axis>
+    <xyz>0 0 1</xyz>
+    <limit>
+      <lower>-1e16</lower>
+      <upper>1e16</upper>
+    </limit>
+    <dynamics>
+      <damping>0.0001</damping>
+    </dynamics>
+  </axis>
+</joint>
+
+
+<!-- ========================================================= -->
+<!--                    ROTOR 2 - CW                          -->
+<!-- ========================================================= -->
+
+<link name="rotor_2">
+  <pose>-0.15 0.15 0.59 0 0 0</pose>
+
+  <inertial>
+    <mass>0.03</mass>
+    <inertia>
+      <ixx>0.00001</ixx>
+      <iyy>0.00001</iyy>
+      <izz>0.00002</izz>
+      <ixy>0</ixy>
+      <ixz>0</ixz>
+      <iyz>0</iyz>
+    </inertia>
+  </inertial>
+
+  <visual name="rotor_2_visual">
+    <geometry>
+      <cylinder>
+        <radius>0.11</radius>
+        <length>0.005</length>
+      </cylinder>
+    </geometry>
+  </visual>
+</link>
+
+<joint name="rotor_2_joint" type="revolute">
+  <parent>base_link</parent>
+  <child>rotor_2</child>
+
+  <axis>
+    <xyz>0 0 1</xyz>
+    <limit>
+      <lower>-1e16</lower>
+      <upper>1e16</upper>
+    </limit>
+    <dynamics>
+      <damping>0.0001</damping>
+    </dynamics>
+  </axis>
+</joint>
+
+
+<!-- ========================================================= -->
+<!--                    ROTOR 3 - CW                          -->
+<!-- ========================================================= -->
+
+<link name="rotor_3">
+  <pose>-0.15 -0.15 0.59 0 0 0</pose>
+
+  <inertial>
+    <mass>0.03</mass>
+    <inertia>
+      <ixx>0.00001</ixx>
+      <iyy>0.00001</iyy>
+      <izz>0.00002</izz>
+      <ixy>0</ixy>
+      <ixz>0</ixz>
+      <iyz>0</iyz>
+    </inertia>
+  </inertial>
+
+  <visual name="rotor_3_visual">
+    <geometry>
+      <cylinder>
+        <radius>0.11</radius>
+        <length>0.005</length>
+      </cylinder>
+    </geometry>
+  </visual>
+</link>
+
+<joint name="rotor_3_joint" type="revolute">
+  <parent>base_link</parent>
+  <child>rotor_3</child>
+
+  <axis>
+    <xyz>0 0 1</xyz>
+    <limit>
+      <lower>-1e16</lower>
+      <upper>1e16</upper>
+    </limit>
+    <dynamics>
+      <damping>0.0001</damping>
+    </dynamics>
+  </axis>
+</joint>
+
+
+<!-- ========================================================= -->
+<!--                    ROTOR 4 - CCW                         -->
+<!-- ========================================================= -->
+
+<link name="rotor_4">
+  <pose>0.15 -0.15 0.59 0 0 0</pose>
+
+  <inertial>
+    <mass>0.03</mass>
+    <inertia>
+      <ixx>0.00001</ixx>
+      <iyy>0.00001</iyy>
+      <izz>0.00002</izz>
+      <ixy>0</ixy>
+      <ixz>0</ixz>
+      <iyz>0</iyz>
+    </inertia>
+  </inertial>
+
+  <visual name="rotor_4_visual">
+    <geometry>
+      <cylinder>
+        <radius>0.11</radius>
+        <length>0.005</length>
+      </cylinder>
+    </geometry>
+  </visual>
+</link>
+
+<joint name="rotor_4_joint" type="revolute">
+  <parent>base_link</parent>
+  <child>rotor_4</child>
+
+  <axis>
+    <xyz>0 0 1</xyz>
+    <limit>
+      <lower>-1e16</lower>
+      <upper>1e16</upper>
+    </limit>
+    <dynamics>
+      <damping>0.0001</damping>
+    </dynamics>
+  </axis>
+</joint>
+
+
+<!-- ========================================================= -->
+<!--             FÍSICA DO MOTOR / EMPUXO 1                   -->
+<!-- ========================================================= -->
+
+<plugin
+    filename="gz-sim-multicopter-motor-model-system"
+    name="gz::sim::systems::MulticopterMotorModel">
+
+  <robotNamespace>S500</robotNamespace>
+
+  <jointName>rotor_1_joint</jointName>
+  <linkName>rotor_1</linkName>
+
+  <turningDirection>ccw</turningDirection>
+
+  <timeConstantUp>0.0125</timeConstantUp>
+  <timeConstantDown>0.025</timeConstantDown>
+
+  <maxRotVelocity>800.0</maxRotVelocity>
+
+  <motorConstant>8.54858e-06</motorConstant>
+  <momentConstant>0.016</momentConstant>
+
+  <commandSubTopic>gazebo/command/motor_speed</commandSubTopic>
+
+  <actuator_number>0</actuator_number>
+
+  <rotorDragCoefficient>8.06428e-05</rotorDragCoefficient>
+  <rollingMomentCoefficient>1e-06</rollingMomentCoefficient>
+
+  <motorSpeedPubTopic>motor_speed/0</motorSpeedPubTopic>
+
+  <rotorVelocitySlowdownSim>10</rotorVelocitySlowdownSim>
+
+  <motorType>velocity</motorType>
+
+</plugin>
+
+
+<!-- ========================================================= -->
+<!--             FÍSICA DO MOTOR / EMPUXO 2                   -->
+<!-- ========================================================= -->
+
+<plugin
+    filename="gz-sim-multicopter-motor-model-system"
+    name="gz::sim::systems::MulticopterMotorModel">
+
+  <robotNamespace>S500</robotNamespace>
+
+  <jointName>rotor_2_joint</jointName>
+  <linkName>rotor_2</linkName>
+
+  <turningDirection>cw</turningDirection>
+
+  <timeConstantUp>0.0125</timeConstantUp>
+  <timeConstantDown>0.025</timeConstantDown>
+
+  <maxRotVelocity>800.0</maxRotVelocity>
+
+  <motorConstant>8.54858e-06</motorConstant>
+  <momentConstant>0.016</momentConstant>
+
+  <commandSubTopic>gazebo/command/motor_speed</commandSubTopic>
+
+  <actuator_number>1</actuator_number>
+
+  <rotorDragCoefficient>8.06428e-05</rotorDragCoefficient>
+  <rollingMomentCoefficient>1e-06</rollingMomentCoefficient>
+
+  <motorSpeedPubTopic>motor_speed/1</motorSpeedPubTopic>
+
+  <rotorVelocitySlowdownSim>10</rotorVelocitySlowdownSim>
+
+  <motorType>velocity</motorType>
+
+</plugin>
+
+
+<!-- ========================================================= -->
+<!--             FÍSICA DO MOTOR / EMPUXO 3                   -->
+<!-- ========================================================= -->
+
+<plugin
+    filename="gz-sim-multicopter-motor-model-system"
+    name="gz::sim::systems::MulticopterMotorModel">
+
+  <robotNamespace>S500</robotNamespace>
+
+  <jointName>rotor_3_joint</jointName>
+  <linkName>rotor_3</linkName>
+
+  <turningDirection>cw</turningDirection>
+
+  <timeConstantUp>0.0125</timeConstantUp>
+  <timeConstantDown>0.025</timeConstantDown>
+
+  <maxRotVelocity>800.0</maxRotVelocity>
+
+  <motorConstant>8.54858e-06</motorConstant>
+  <momentConstant>0.016</momentConstant>
+
+  <commandSubTopic>gazebo/command/motor_speed</commandSubTopic>
+
+  <actuator_number>2</actuator_number>
+
+  <rotorDragCoefficient>8.06428e-05</rotorDragCoefficient>
+  <rollingMomentCoefficient>1e-06</rollingMomentCoefficient>
+
+  <motorSpeedPubTopic>motor_speed/2</motorSpeedPubTopic>
+
+  <rotorVelocitySlowdownSim>10</rotorVelocitySlowdownSim>
+
+  <motorType>velocity</motorType>
+
+</plugin>
+
+
+<!-- ========================================================= -->
+<!--             FÍSICA DO MOTOR / EMPUXO 4                   -->
+<!-- ========================================================= -->
+
+<plugin
+    filename="gz-sim-multicopter-motor-model-system"
+    name="gz::sim::systems::MulticopterMotorModel">
+
+  <robotNamespace>S500</robotNamespace>
+
+  <jointName>rotor_4_joint</jointName>
+  <linkName>rotor_4</linkName>
+
+  <turningDirection>ccw</turningDirection>
+
+  <timeConstantUp>0.0125</timeConstantUp>
+  <timeConstantDown>0.025</timeConstantDown>
+
+  <maxRotVelocity>800.0</maxRotVelocity>
+
+  <motorConstant>8.54858e-06</motorConstant>
+  <momentConstant>0.016</momentConstant>
+
+  <commandSubTopic>gazebo/command/motor_speed</commandSubTopic>
+
+  <actuator_number>3</actuator_number>
+
+  <rotorDragCoefficient>8.06428e-05</rotorDragCoefficient>
+  <rollingMomentCoefficient>1e-06</rollingMomentCoefficient>
+
+  <motorSpeedPubTopic>motor_speed/3</motorSpeedPubTopic>
+
+  <rotorVelocitySlowdownSim>10</rotorVelocitySlowdownSim>
+
+  <motorType>velocity</motorType>
+
+</plugin>
+
+  </model>
+
+</sdf>
