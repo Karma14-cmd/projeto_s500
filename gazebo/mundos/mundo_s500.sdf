@@ -38,6 +38,7 @@
       <max_step_size>0.001</max_step_size>
       <real_time_factor>1</real_time_factor>
       <real_time_update_rate>1000</real_time_update_rate>
+    </physics>
   
 
     <!-- Sol -->
@@ -72,6 +73,5 @@
 
       </link>
     </model>
-    </physics>
   </world>
 </sdf>

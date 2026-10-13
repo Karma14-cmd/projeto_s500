@@ -175,6 +175,47 @@
   <visualize>false</visualize>
   <topic>imu</topic>
 </sensor>
+
+<!-- TF-Luna: aproximação com gpu_lidar nativo do Gazebo.
+     Parâmetros: manual Benewake TF-Luna, revisão 01/04/2024.
+     https://en.benewake.com/uploadfiles/2025/04/20250430174515390.pdf
+     Montagem escolhida para altura: 10 cm abaixo do base_link;
+     pitch +pi/2 aponta o eixo de medição +X para baixo (-Z).
+     O FoV é aproximado por uma grade 3x3 de raios em +/-1 grau.
+     A leitura Python reduz a grade à menor distância válida.
+     Ruído desabilitado: aproximação geométrica, sem calibração óptica.
+-->
+<sensor name="tf_luna" type="gpu_lidar">
+  <pose>0 0 -0.10 0 1.5707963267948966 0</pose>
+  <always_on>true</always_on>
+  <update_rate>100</update_rate>
+  <visualize>true</visualize>
+  <topic>/s500/infravermelho/scan</topic>
+  <lidar>
+    <scan>
+      <horizontal>
+        <samples>3</samples>
+        <resolution>1</resolution>
+        <min_angle>-0.0174532925199433</min_angle>
+        <max_angle>0.0174532925199433</max_angle>
+      </horizontal>
+      <vertical>
+        <samples>3</samples>
+        <resolution>1</resolution>
+        <min_angle>-0.0174532925199433</min_angle>
+        <max_angle>0.0174532925199433</max_angle>
+      </vertical>
+    </scan>
+    <range>
+      <min>0.20</min>
+      <max>8.0</max>
+      <resolution>0.01</resolution>
+    </range>
+    <noise>
+      <type>none</type>
+    </noise>
+  </lidar>
+</sensor>
 </link>
 <!-- ========================================================= -->
 <!--                    ROTOR 1 - CCW                         -->
