@@ -1,0 +1,19 @@
+{"utc": "2026-11-01T20:43:14Z", "event": "modo", "mode": 6, "armed": false}
+{"utc": "2026-11-01T20:43:39Z", "event": "auditoria_parametros", "parametros": {"FENCE_ENABLE": 1.0, "FENCE_TYPE": 7.0, "FENCE_ALT_MAX": 7.0, "FENCE_ACTION": 1.0, "FENCE_MARGIN": 2.0, "FS_THR_ENABLE": 1.0, "FS_GCS_ENABLE": 1.0, "SIM_RC_FAIL": 0.0, "SIM_SPEEDUP": 1.0, "FS_GCS_TIMEOUT": 5.0, "FS_OPTIONS": 0.0, "ARMING_CHECK": null, "ARMING_SKIPCHK": 0.0, "RTL_ALT": null, "RTL_ALT_M": 5.0, "RTL_CLIMB_MIN": null, "RTL_CLIMB_MIN_M": 0.0, "SYSID_MYGCS": null, "MAV_GCS_SYSID": 255.0}, "system": 1, "component": 1}
+{"utc": "2026-11-01T20:43:40Z", "event": "mavlink", "message": {"mavpackettype": "COMMAND_ACK", "command": 511, "result": 0, "progress": 0, "result_param2": 0, "target_system": 255, "target_component": 190}}
+{"utc": "2026-11-01T20:43:40Z", "event": "mavlink", "message": {"mavpackettype": "COMMAND_ACK", "command": 511, "result": 0, "progress": 0, "result_param2": 0, "target_system": 255, "target_component": 190}}
+{"utc": "2026-11-01T20:43:40Z", "event": "mavlink", "message": {"mavpackettype": "COMMAND_ACK", "command": 176, "result": 0, "progress": 0, "result_param2": 0, "target_system": 255, "target_component": 190}}
+{"utc": "2026-11-01T20:43:40Z", "event": "modo", "mode": 4, "armed": false}
+{"utc": "2026-11-01T20:43:40Z", "event": "mavlink", "message": {"mavpackettype": "COMMAND_ACK", "command": 400, "result": 0, "progress": 0, "result_param2": 0, "target_system": 255, "target_component": 190}}
+{"utc": "2026-11-01T20:43:40Z", "event": "mavlink", "message": {"mavpackettype": "STATUSTEXT", "severity": 6, "text": "Arming motors", "id": 0, "chunk_seq": 0}}
+{"utc": "2026-11-01T20:43:41Z", "event": "armado"}
+{"utc": "2026-11-01T20:43:41Z", "event": "mavlink", "message": {"mavpackettype": "COMMAND_ACK", "command": 22, "result": 0, "progress": 0, "result_param2": 0, "target_system": 255, "target_component": 190}}
+{"utc": "2026-11-01T20:43:46Z", "event": "mavlink", "message": {"mavpackettype": "STATUSTEXT", "severity": 6, "text": "EKF3 IMU1 MAG0 in-flight yaw alignment complete", "id": 0, "chunk_seq": 0}}
+{"utc": "2026-11-01T20:43:46Z", "event": "mavlink", "message": {"mavpackettype": "STATUSTEXT", "severity": 6, "text": "EKF3 IMU0 MAG0 in-flight yaw alignment complete", "id": 0, "chunk_seq": 0}}
+{"utc": "2026-11-01T20:43:47Z", "event": "alvo_navegacao", "north": 2.047481920570135, "east": -0.032953109592199326, "down": -4.605707168579102}
+{"utc": "2026-11-01T20:43:49Z", "event": "navegacao_confirmada"}
+{"utc": "2026-11-01T20:43:49Z", "event": "mavlink", "message": {"mavpackettype": "COMMAND_ACK", "command": 176, "result": 0, "progress": 0, "result_param2": 0, "target_system": 255, "target_component": 190}}
+{"utc": "2026-11-01T20:43:49Z", "event": "modo", "mode": 9, "armed": true}
+{"utc": "2026-11-01T20:43:58Z", "event": "mavlink", "message": {"mavpackettype": "STATUSTEXT", "severity": 6, "text": "SIM Hit ground at 0.494193 m/s", "id": 0, "chunk_seq": 0}}
+{"utc": "2026-11-01T20:44:01Z", "event": "mavlink", "message": {"mavpackettype": "STATUSTEXT", "severity": 6, "text": "Disarming motors", "id": 0, "chunk_seq": 0}}
+{"utc": "2026-11-01T20:44:01Z", "event": "missao_concluida", "criterio": "Altitude, alvo e desarmamento confirmados"}

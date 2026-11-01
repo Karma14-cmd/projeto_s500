@@ -1,0 +1,30 @@
+{"utc": "2026-11-01T20:45:26Z", "event": "modo", "mode": 6, "armed": false}
+{"utc": "2026-11-01T20:45:26Z", "event": "mavlink", "message": {"mavpackettype": "FENCE_STATUS", "breach_status": 0, "breach_count": 1, "breach_type": 0, "breach_time": 209656, "breach_mitigation": 1}}
+{"utc": "2026-11-01T20:45:26Z", "event": "mavlink", "message": {"mavpackettype": "FENCE_STATUS", "breach_status": 0, "breach_count": 1, "breach_type": 0, "breach_time": 209656, "breach_mitigation": 1}}
+{"utc": "2026-11-01T20:45:26Z", "event": "mavlink", "message": {"mavpackettype": "FENCE_STATUS", "breach_status": 0, "breach_count": 1, "breach_type": 0, "breach_time": 209656, "breach_mitigation": 1}}
+{"utc": "2026-11-01T20:45:26Z", "event": "mavlink", "message": {"mavpackettype": "FENCE_STATUS", "breach_status": 0, "breach_count": 1, "breach_type": 0, "breach_time": 209656, "breach_mitigation": 1}}
+{"utc": "2026-11-01T20:45:27Z", "event": "mavlink", "message": {"mavpackettype": "FENCE_STATUS", "breach_status": 0, "breach_count": 1, "breach_type": 0, "breach_time": 209656, "breach_mitigation": 1}}
+{"utc": "2026-11-01T20:45:27Z", "event": "mavlink", "message": {"mavpackettype": "FENCE_STATUS", "breach_status": 0, "breach_count": 1, "breach_type": 0, "breach_time": 209656, "breach_mitigation": 1}}
+{"utc": "2026-11-01T20:45:27Z", "event": "mavlink", "message": {"mavpackettype": "FENCE_STATUS", "breach_status": 0, "breach_count": 1, "breach_type": 0, "breach_time": 209656, "breach_mitigation": 1}}
+{"utc": "2026-11-01T20:45:27Z", "event": "configuracao_anterior", "parametros": {"FENCE_ENABLE": 1.0, "FENCE_ALT_MAX": 7.0, "FENCE_ACTION": 1.0, "FENCE_MARGIN": 2.0, "FS_THR_ENABLE": 1.0, "FS_GCS_ENABLE": 1.0, "FS_GCS_TIMEOUT": 5.0, "FS_OPTIONS": 0.0, "SIM_RC_FAIL": 0.0, "FENCE_TYPE": 7.0, "RTL_ALT_M": 5.0, "RTL_CLIMB_MIN_M": 0.0, "ARMING_SKIPCHK": 0.0, "WP_SPD_UP": 2.5, "WP_SPD_DN": 1.5, "WP_SPD": 10.0}}
+{"utc": "2026-11-01T20:45:27Z", "event": "parametro_confirmado", "nome": "FENCE_ENABLE", "valor": 1.0}
+{"utc": "2026-11-01T20:45:27Z", "event": "parametro_confirmado", "nome": "FENCE_ALT_MAX", "valor": 7.0}
+{"utc": "2026-11-01T20:45:27Z", "event": "parametro_confirmado", "nome": "FENCE_ACTION", "valor": 1.0}
+{"utc": "2026-11-01T20:45:27Z", "event": "mavlink", "message": {"mavpackettype": "FENCE_STATUS", "breach_status": 0, "breach_count": 1, "breach_type": 0, "breach_time": 209656, "breach_mitigation": 1}}
+{"utc": "2026-11-01T20:45:27Z", "event": "parametro_confirmado", "nome": "FENCE_MARGIN", "valor": 2.0}
+{"utc": "2026-11-01T20:45:27Z", "event": "parametro_confirmado", "nome": "FS_THR_ENABLE", "valor": 1.0}
+{"utc": "2026-11-01T20:45:27Z", "event": "parametro_confirmado", "nome": "FS_GCS_ENABLE", "valor": 1.0}
+{"utc": "2026-11-01T20:45:27Z", "event": "parametro_confirmado", "nome": "FS_GCS_TIMEOUT", "valor": 5.0}
+{"utc": "2026-11-01T20:45:27Z", "event": "mavlink", "message": {"mavpackettype": "FENCE_STATUS", "breach_status": 0, "breach_count": 1, "breach_type": 0, "breach_time": 209656, "breach_mitigation": 1}}
+{"utc": "2026-11-01T20:45:27Z", "event": "parametro_confirmado", "nome": "FS_OPTIONS", "valor": 0.0}
+{"utc": "2026-11-01T20:45:28Z", "event": "parametro_confirmado", "nome": "SIM_RC_FAIL", "valor": 0.0}
+{"utc": "2026-11-01T20:45:28Z", "event": "parametro_confirmado", "nome": "FENCE_TYPE", "valor": 7.0}
+{"utc": "2026-11-01T20:45:28Z", "event": "parametro_confirmado", "nome": "RTL_ALT_M", "valor": 5.0}
+{"utc": "2026-11-01T20:45:28Z", "event": "mavlink", "message": {"mavpackettype": "FENCE_STATUS", "breach_status": 0, "breach_count": 1, "breach_type": 0, "breach_time": 209656, "breach_mitigation": 1}}
+{"utc": "2026-11-01T20:45:28Z", "event": "parametro_confirmado", "nome": "RTL_CLIMB_MIN_M", "valor": 0.0}
+{"utc": "2026-11-01T20:45:28Z", "event": "parametro_confirmado", "nome": "ARMING_SKIPCHK", "valor": 0.0}
+{"utc": "2026-11-01T20:45:28Z", "event": "parametro_confirmado", "nome": "WP_SPD_UP", "valor": 0.5}
+{"utc": "2026-11-01T20:45:28Z", "event": "mavlink", "message": {"mavpackettype": "FENCE_STATUS", "breach_status": 0, "breach_count": 1, "breach_type": 0, "breach_time": 209656, "breach_mitigation": 1}}
+{"utc": "2026-11-01T20:45:28Z", "event": "parametro_confirmado", "nome": "WP_SPD_DN", "valor": 0.5}
+{"utc": "2026-11-01T20:45:28Z", "event": "parametro_confirmado", "nome": "WP_SPD", "valor": 1.0}
+{"utc": "2026-11-01T20:45:28Z", "event": "configuracao_concluida", "testes_em_voo": false}
