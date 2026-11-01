@@ -1,0 +1,81 @@
+RELATÓRIO DE EXECUÇÃO E VALIDAÇÃO — ARDUCOPTER
+Data: 01/11/2026. Horários de apresentação: Brasília (UTC−3).
+
+AMBIENTE E ESCOPO
+O SITL original em WSL2/Ubuntu não pôde ser acessado: o comando wsl --list --verbose retornou Wsl/E_ACCESSDENIED. Nenhuma configuração desse Ubuntu foi confirmada ou alterada.
+Para prosseguir no mesmo computador, foi iniciado o SITL nativo pelo Mission Planner 1.3.76. O firmware identificado foi ArduCopter V4.7.2, revisão fbd0a316. Os resultados desta execução pertencem a esse SITL nativo, não ao ambiente WSL original.
+O Mission Planner usa sua conexão própria; os scripts usam MAVLink diretamente por TCP em 127.0.0.1:5762. A integração UDP anterior consta do relato inicial do usuário; não foi reproduzida nesta sessão.
+Não foram usados Git, commits ou repositórios para documentar o trabalho.
+
+CORREÇÕES E IMPLEMENTAÇÃO
+1. Aberto o Mission Planner e identificado que estava desconectado.
+2. Tentativa inicial de iniciar o SITL encontrou erro do sistema. A análise dos imports PE confirmou a falta de cyggcc_s-seh-1.dll, cygiconv-2.dll e cygintl-8.dll.
+3. Obtidas as bibliotecas do servidor oficial do ArduPilot e atualizada também cygwin1.dll. A versão anterior de cygwin1.dll foi copiada para work/sitl_backup antes da substituição. As alterações foram feitas na pasta do SITL do Mission Planner, com acesso concedido pelo aplicativo.
+4. A execução direta do SITL pelo terminal isolado falhou em NtCreateDirectoryObject com 0xC0000022. A inicialização pela interface do Mission Planner funcionou após a correção das bibliotecas.
+5. Criado ambiente virtual Python 3.12 em work/venv e instalados PyMAVLink 2.4.50, lxml 6.1.3 e fastcrc 0.5.0. Trata-se de ambiente Windows; a instalação no Ubuntu não foi executada.
+6. Criados voo_autonomo.py, validar_fase3.py e validar_geofence.py, com registros JSONL, confirmação de comandos e telemetria, limites de espera e tratamento de erro.
+7. O script de voo, por padrão, somente consulta os parâmetros. O argumento --fly-sitl habilita explicitamente a missão simulada.
+8. Foram identificadas mudanças de parâmetros nesta versão: ARMING_CHECK foi substituído por ARMING_SKIPCHK, com sentido invertido; RTL_ALT passou a RTL_ALT_M, com unidade em metros; SYSID_MYGCS passou a MAV_GCS_SYSID. O código trata as alternativas aplicáveis.
+
+FASE 1 — AMBIENTE E VOO BASE
+Relato anterior: WSL2/Ubuntu, telemetria UDP no Mission Planner, GUIDED, armamento e decolagem a 5 m já testados.
+Evidência desta execução: SITL nativo conectado ao Mission Planner, comunicação MAVLink direta por Python, comandos de modo/armamento/decolagem aceitos e voos simulados realizados.
+Situação: operação básica validada no SITL nativo. Situação do WSL original permanece não verificada.
+
+FASE 2 — GEOFENCE
+Configurados e lidos de volta: FENCE_ENABLE=1, FENCE_ALT_MAX=7, FENCE_MARGIN=2, FENCE_ACTION=1. Outros tipos de fence habilitados foram preservados; FENCE_TYPE permaneceu 7.
+Primeiro teste nesta sessão: enviada decolagem a 10 m; recebido FENCE_STATUS com breach_status=1 e breach_type=2, mensagem de violação do teto e transição para RTL. Pouso e desarmamento confirmados às 17:44:42.
+Pico medido no primeiro teste: 9,098 m. O disparo do geofence não significa parada instantânea em 7 m: existe ultrapassagem dinâmica. Portanto, a afirmação inicial de ausência de risco de flyaway ou de barreira mecânica rígida não é sustentada pelo teste.
+Foram então ajustadas as velocidades WP_SPD_UP=0,5 m/s, WP_SPD_DN=0,5 m/s e WP_SPD=1 m/s. Na repetição, a violação do teto e o RTL foram novamente confirmados, com pouso/desarmamento às 17:46:13. O pico caiu para 7,331 m, reduzindo a ultrapassagem de 2,098 m para 0,331 m. Isso valida o disparo e a recuperação, mas não um limite físico absoluto de 7 m. Para uma aplicação com limite físico externo rígido, o gatilho deve ser inferior ao limite e a margem deve ser validada para as condições operacionais; essa garantia não foi estabelecida aqui.
+
+FASE 3 — FAILSAFES
+Configuração confirmada por escrita e leitura: FS_THR_ENABLE=1, FS_GCS_ENABLE=1, FS_GCS_TIMEOUT=5, FS_OPTIONS=0. RTL_ALT_M=5 e RTL_CLIMB_MIN_M=0 mantêm o retorno nominal abaixo do teto de 7 m. ARMING_SKIPCHK=0 preserva as verificações de armamento.
+Teste RC: decolagem até pelo menos 2,7 m, SIM_RC_FAIL=1, transição GUIDED→RTL e mensagem Radio Failsafe. Tempo medido entre a injeção registrada e a confirmação por heartbeat de RTL: 0,953 s. SIM_RC_FAIL restaurado para 0. Pouso e desarmamento confirmados às 17:42:05. Resultado: aprovado.
+Teste GCS: temporariamente configurado MAV_GCS_SYSID=254 e utilizados heartbeats do script com ID 254; Mission Planner em 255 permaneceu disponível para observação sem mascarar a perda do ID monitorado. Em voo, interrompidos somente os heartbeats do script. Recebida mensagem GCS Failsafe e confirmado RTL 4,531 s após a interrupção registrada. O timeout configurado é 5 s desde o último heartbeat recebido, que antecede a interrupção do envio. Pouso e desarmamento confirmados às 17:42:57. MAV_GCS_SYSID restaurado e lido em 255. Resultado: aprovado.
+Situação: fase 3 executada e validada no SITL nativo deste computador. Não se pode estender esse resultado ao SITL do WSL sem acessá-lo.
+
+FASE 4 — CÓDIGO E VOO AUTÔNOMO
+Implementada conexão MAVLink, auditoria de parâmetros, GUIDED, armamento, decolagem comandada a 5 m, deslocamento de 2 m ao norte em coordenadas locais NED e pouso LAND.
+O programa exige altitude dentro da margem do fence e falha de rádio restaurada; não desabilita checagens de armamento. Mantém heartbeats durante a missão e interrompe a sequência quando GUIDED é abandonado. Setpoints de posição são validados pela posição recebida, pois não têm COMMAND_ACK individual.
+Critérios: altitude dentro de 0,4 m do alvo; distância tridimensional até o alvo de navegação de no máximo 0,6 m; desarmamento confirmado após LAND.
+Primeira missão: comandos aceitos; alvo de navegação emitido às 17:43:47; navegação confirmada às 17:43:49; LAND confirmado; pouso e desarmamento às 17:44:01. Resultado: aprovado.
+Repetição com velocidades finais reduzidas, executada pelo Python do ambiente virtual: alvo emitido às 17:47:17, navegação confirmada às 17:47:19 e conclusão com desarmamento às 17:47:32. Resultado: aprovado.
+O ambiente virtual e a instalação PyMAVLink foram concluídos no Windows. A etapa estritamente em Ubuntu permanece fora do que foi executado.
+
+CONFIGURAÇÃO FINAL E CONFERÊNCIA
+FENCE_ENABLE=1; FENCE_TYPE=7; FENCE_ALT_MAX=7; FENCE_MARGIN=2; FENCE_ACTION=1.
+FS_THR_ENABLE=1; FS_GCS_ENABLE=1; FS_GCS_TIMEOUT=5; FS_OPTIONS=0.
+RTL_ALT_M=5; RTL_CLIMB_MIN_M=0.
+ARMING_SKIPCHK=0; SIM_RC_FAIL=0; MAV_GCS_SYSID=255; MAV_GCS_SYSID_HI=0.
+WP_SPD_UP=0,5 m/s; WP_SPD_DN=0,5 m/s; WP_SPD=1 m/s.
+Leitura final às 17:47:34: recebidos 1370 parâmetros de 1370 esperados. Aeronave simulada desarmada, modo LAND (9). Os valores finais foram exportados em parametros_finais.json. As escritas foram confirmadas por eco e nova leitura; não foi realizado teste adicional de persistência após reiniciar o simulador.
+Foram executados seis testes locais de regras de validação: plano válido, entradas inválidas de altitude/distância, configurações de proteção incompatíveis, normalização de nomes MAVLink e comportamento de ARMING_SKIPCHK. Todos passaram. Esses testes complementam os voos reais no simulador e não os substituem.
+Os scripts detectam parâmetros de simulação e foram executados somente no SITL; não foram validados para aeronave física.
+
+EVIDÊNCIAS
+parametros_iniciais.json: 1370 parâmetros recebidos de 1370 informados pelo simulador antes da configuração.
+fase3_rc.jsonl: configuração, injeção de falha RC, RTL e desarmamento.
+fase3_gcs.jsonl: isolamento do ID GCS, perda de heartbeat, RTL, desarmamento e restauração do ID.
+fase4_voo.jsonl: primeira missão autônoma com conclusão confirmada.
+fase2_geofence.jsonl: primeiro teste do teto, reação e pico de altitude.
+ajuste_velocidades.jsonl: velocidades reduzidas, confirmadas por leitura.
+requirements.txt: versões utilizadas.
+fase2_geofence_ajustado.jsonl: repetição do geofence com pico de 7,331 m.
+fase4_voo_final.jsonl: missão completa após o ajuste das velocidades.
+parametros_finais.json e parametros_finais.jsonl: lista completa e confirmação de estado desarmado.
+configuracao_final.param: extrato dos parâmetros configurados, com nomes da versão 4.7.2.
+testes_offline.txt: saída dos seis testes locais aprovados.
+COMO_EXECUTAR.txt: comandos para reutilizar o ambiente preparado e orientação de migração para Ubuntu.
+
+RESULTADO E PONTO EXATO AINDA PENDENTE
+No SITL nativo do Mission Planner, foram concluídos: conexão e voo base, configuração/teste do geofence, configuração/testes dos failsafes RC/GCS e desenvolvimento/execução do voo autônomo com Python. O estado final foi conferido como desarmado.
+No ambiente WSL2/Ubuntu original, não houve acesso nem alteração. A etapa que permanece pendente nesse ambiente específico é: conseguir acesso à distribuição, conferir sua versão e parâmetros, criar o venv/installar PyMAVLink no Ubuntu e reproduzir os testes nele. Essa pendência é de acesso ao ambiente, não de falta de tokens. Os resultados do SITL nativo não comprovam configuração do WSL original.
+O SITL nativo e o Mission Planner foram deixados abertos; nenhum novo voo fica programado para iniciar sozinho.
+
+REFERÊNCIAS OFICIAIS CONSULTADAS
+https://ardupilot.org/dev/docs/copter-commands-in-guided-mode.html
+https://ardupilot.org/dev/docs/mavlink-get-set-params.html
+https://ardupilot.org/copter/docs/gcs-failsafe.html
+https://ardupilot.org/copter/docs/parameters-Copter-stable-V4.7.2.html
+https://docs.ardupilot.org/copter/docs/common-param-name-changes.html
+https://firmware.ardupilot.org/Tools/MissionPlanner/sitl/
