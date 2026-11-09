@@ -1,0 +1,11 @@
+test_modern_arming_checks (__main__.PlanTests.test_modern_arming_checks) ... ok
+test_parameter_id_normalization (__main__.PlanTests.test_parameter_id_normalization) ... ok
+test_reject_invalid_altitudes (__main__.PlanTests.test_reject_invalid_altitudes) ... ok
+test_reject_invalid_distances (__main__.PlanTests.test_reject_invalid_distances) ... ok
+test_reject_unsafe_parameters (__main__.PlanTests.test_reject_unsafe_parameters) ... ok
+test_valid_plan (__main__.PlanTests.test_valid_plan) ... ok
+
+----------------------------------------------------------------------
+Ran 6 tests in 0.000s
+
+OK

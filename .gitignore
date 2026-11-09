@@ -47,3 +47,8 @@ resultados/imagens/
 .DS_Store
 Thumbs.db
 
+# Registros gerados ao executar os utilitarios SITL.
+# Evidencias revisadas ficam em docs/validacao_sitl_2026-11-01/evidencias/.
+python/sitl/*.jsonl
+python/sitl/*.json
+

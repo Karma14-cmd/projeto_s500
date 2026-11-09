@@ -1,0 +1,7 @@
+{"utc": "2026-11-01T20:47:33Z", "event": "modo", "mode": 9, "armed": false}
+{"utc": "2026-11-01T20:47:33Z", "event": "mavlink", "message": {"mavpackettype": "FENCE_STATUS", "breach_status": 0, "breach_count": 3, "breach_type": 0, "breach_time": 306136, "breach_mitigation": 1}}
+{"utc": "2026-11-01T20:47:33Z", "event": "mavlink", "message": {"mavpackettype": "STATUSTEXT", "severity": 6, "text": "ArduCopter V4.7.2 (fbd0a316)", "id": 0, "chunk_seq": 0}}
+{"utc": "2026-11-01T20:47:33Z", "event": "mavlink", "message": {"mavpackettype": "STATUSTEXT", "severity": 6, "text": "BUTTARELLO", "id": 0, "chunk_seq": 0}}
+{"utc": "2026-11-01T20:47:33Z", "event": "mavlink", "message": {"mavpackettype": "STATUSTEXT", "severity": 6, "text": "Frame: QUAD/PLUS", "id": 0, "chunk_seq": 0}}
+{"utc": "2026-11-01T20:47:33Z", "event": "mavlink", "message": {"mavpackettype": "FENCE_STATUS", "breach_status": 0, "breach_count": 3, "breach_type": 0, "breach_time": 306136, "breach_mitigation": 1}}
+{"utc": "2026-11-01T20:47:34Z", "event": "estado_final", "mode": 9, "armed": false, "parametros_recebidos": 1370, "parametros_esperados": 1370}

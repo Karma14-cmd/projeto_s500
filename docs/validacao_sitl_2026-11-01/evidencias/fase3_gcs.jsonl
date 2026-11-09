@@ -1,0 +1,34 @@
+{"utc": "2026-11-01T20:42:29Z", "event": "modo", "mode": 6, "armed": false}
+{"utc": "2026-11-01T20:42:30Z", "event": "configuracao_anterior", "parametros": {"FENCE_ENABLE": 1.0, "FENCE_ALT_MAX": 7.0, "FENCE_ACTION": 1.0, "FENCE_MARGIN": 2.0, "FS_THR_ENABLE": 1.0, "FS_GCS_ENABLE": 1.0, "FS_GCS_TIMEOUT": 5.0, "FS_OPTIONS": 0.0, "SIM_RC_FAIL": 0.0, "FENCE_TYPE": 7.0, "RTL_ALT_M": 5.0, "RTL_CLIMB_MIN_M": 0.0, "ARMING_SKIPCHK": 0.0}}
+{"utc": "2026-11-01T20:42:30Z", "event": "parametro_confirmado", "nome": "FENCE_ENABLE", "valor": 1.0}
+{"utc": "2026-11-01T20:42:30Z", "event": "parametro_confirmado", "nome": "FENCE_ALT_MAX", "valor": 7.0}
+{"utc": "2026-11-01T20:42:30Z", "event": "parametro_confirmado", "nome": "FENCE_ACTION", "valor": 1.0}
+{"utc": "2026-11-01T20:42:30Z", "event": "parametro_confirmado", "nome": "FENCE_MARGIN", "valor": 2.0}
+{"utc": "2026-11-01T20:42:30Z", "event": "parametro_confirmado", "nome": "FS_THR_ENABLE", "valor": 1.0}
+{"utc": "2026-11-01T20:42:30Z", "event": "parametro_confirmado", "nome": "FS_GCS_ENABLE", "valor": 1.0}
+{"utc": "2026-11-01T20:42:31Z", "event": "parametro_confirmado", "nome": "FS_GCS_TIMEOUT", "valor": 5.0}
+{"utc": "2026-11-01T20:42:31Z", "event": "parametro_confirmado", "nome": "FS_OPTIONS", "valor": 0.0}
+{"utc": "2026-11-01T20:42:31Z", "event": "parametro_confirmado", "nome": "SIM_RC_FAIL", "valor": 0.0}
+{"utc": "2026-11-01T20:42:31Z", "event": "parametro_confirmado", "nome": "FENCE_TYPE", "valor": 7.0}
+{"utc": "2026-11-01T20:42:31Z", "event": "parametro_confirmado", "nome": "RTL_ALT_M", "valor": 5.0}
+{"utc": "2026-11-01T20:42:31Z", "event": "parametro_confirmado", "nome": "RTL_CLIMB_MIN_M", "valor": 0.0}
+{"utc": "2026-11-01T20:42:31Z", "event": "parametro_confirmado", "nome": "ARMING_SKIPCHK", "valor": 0.0}
+{"utc": "2026-11-01T20:42:31Z", "event": "parametro_confirmado", "nome": "MAV_GCS_SYSID", "valor": 254.0}
+{"utc": "2026-11-01T20:42:31Z", "event": "mavlink", "message": {"mavpackettype": "COMMAND_ACK", "command": 511, "result": 0, "progress": 0, "result_param2": 0, "target_system": 254, "target_component": 190}}
+{"utc": "2026-11-01T20:42:31Z", "event": "mavlink", "message": {"mavpackettype": "COMMAND_ACK", "command": 176, "result": 0, "progress": 0, "result_param2": 0, "target_system": 254, "target_component": 190}}
+{"utc": "2026-11-01T20:42:31Z", "event": "modo", "mode": 4, "armed": false}
+{"utc": "2026-11-01T20:42:31Z", "event": "mavlink", "message": {"mavpackettype": "COMMAND_ACK", "command": 400, "result": 0, "progress": 0, "result_param2": 0, "target_system": 254, "target_component": 190}}
+{"utc": "2026-11-01T20:42:31Z", "event": "mavlink", "message": {"mavpackettype": "STATUSTEXT", "severity": 6, "text": "Arming motors", "id": 0, "chunk_seq": 0}}
+{"utc": "2026-11-01T20:42:32Z", "event": "mavlink", "message": {"mavpackettype": "COMMAND_ACK", "command": 22, "result": 0, "progress": 0, "result_param2": 0, "target_system": 254, "target_component": 190}}
+{"utc": "2026-11-01T20:42:37Z", "event": "mavlink", "message": {"mavpackettype": "STATUSTEXT", "severity": 6, "text": "EKF3 IMU1 MAG0 in-flight yaw alignment complete", "id": 0, "chunk_seq": 0}}
+{"utc": "2026-11-01T20:42:37Z", "event": "mavlink", "message": {"mavpackettype": "STATUSTEXT", "severity": 6, "text": "EKF3 IMU0 MAG0 in-flight yaw alignment complete", "id": 0, "chunk_seq": 0}}
+{"utc": "2026-11-01T20:42:37Z", "event": "decolagem_confirmada", "altitude_m": 2.802}
+{"utc": "2026-11-01T20:42:37Z", "event": "heartbeats_gcs_interrompidos", "source_system": 254}
+{"utc": "2026-11-01T20:42:42Z", "event": "modo", "mode": 6, "armed": true}
+{"utc": "2026-11-01T20:42:42Z", "event": "failsafe_rtl_confirmado", "teste": "gcs", "segundos_apos_injecao": 4.531}
+{"utc": "2026-11-01T20:42:42Z", "event": "mavlink", "message": {"mavpackettype": "STATUSTEXT", "severity": 4, "text": "GCS Failsafe", "id": 0, "chunk_seq": 0}}
+{"utc": "2026-11-01T20:42:42Z", "event": "mavlink", "message": {"mavpackettype": "STATUSTEXT", "severity": 4, "text": "GCS Failsafe Cleared", "id": 0, "chunk_seq": 0}}
+{"utc": "2026-11-01T20:42:55Z", "event": "mavlink", "message": {"mavpackettype": "STATUSTEXT", "severity": 6, "text": "SIM Hit ground at 0.497715 m/s", "id": 0, "chunk_seq": 0}}
+{"utc": "2026-11-01T20:42:57Z", "event": "mavlink", "message": {"mavpackettype": "STATUSTEXT", "severity": 6, "text": "Disarming motors", "id": 0, "chunk_seq": 0}}
+{"utc": "2026-11-01T20:42:57Z", "event": "teste_fase3_aprovado", "teste": "gcs", "desarmado": true}
+{"utc": "2026-11-01T20:42:57Z", "event": "parametro_confirmado", "nome": "MAV_GCS_SYSID", "valor": 255.0}
