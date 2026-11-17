@@ -42,3 +42,15 @@ Para inspecionar um tópico com a simulação em execução:
 gz topic -l                    # lista os tópicos publicados
 gz topic -e -t /s500/gps       # mostra as mensagens do GPS
 ```
+
+O teste [`python/testes/testar_sensores_gazebo.py`](python/testes/testar_sensores_gazebo.py)
+sobe o Gazebo sem interface com o S500 estático em duas poses e verifica se os
+seis sensores publicam leituras coerentes entre elas (GPS e bússola variam,
+pressão cai com a altura, TF-Luna mede ~1,0 m e ~2,22 m, câmera entrega
+quadros 640×480 diferentes). Requer Gazebo Harmonic com os bindings Python
+`gz.transport13`; os registros vão para `resultados/sensores/`.
+
+```bash
+python python/testes/testar_sensores_gazebo.py               # ensaio completo
+python python/testes/testar_sensores_gazebo.py --validar-sdf # só valida os SDFs
+```
