@@ -217,23 +217,49 @@
   </lidar>
 </sensor>
 
+      <!-- Ruido gaussiano BAIXO (perfil inicial, abaixo de um GPS/bussola/
+           barometro real). Aumente os stddev para ensaios mais realistas. -->
       <sensor name="gps" type="navsat">
         <pose>0 0 .10 0 0 0</pose>
         <always_on>true</always_on>
         <update_rate>10</update_rate>
         <topic>/s500/gps</topic>
+        <navsat>
+          <!-- posicao: o Gazebo aplica o ruido HORIZONTAL em graus de
+               latitude/longitude e o VERTICAL em metros.
+               1.8e-6 grau ~ 0,2 m horizontal; 0,4 m vertical -->
+          <position_sensing>
+            <horizontal><noise type="gaussian"><mean>0</mean><stddev>1.8e-6</stddev></noise></horizontal>
+            <vertical><noise type="gaussian"><mean>0</mean><stddev>0.4</stddev></noise></vertical>
+          </position_sensing>
+          <!-- velocidade em m/s -->
+          <velocity_sensing>
+            <horizontal><noise type="gaussian"><mean>0</mean><stddev>0.05</stddev></noise></horizontal>
+            <vertical><noise type="gaussian"><mean>0</mean><stddev>0.05</stddev></noise></vertical>
+          </velocity_sensing>
+        </navsat>
       </sensor>
       <sensor name="bussola" type="magnetometer">
         <pose>0 0 .10 0 0 0</pose>
         <always_on>true</always_on>
         <update_rate>20</update_rate>
         <topic>/s500/bussola</topic>
+        <magnetometer>
+          <!-- campo de ~0,27 G no local; 0,001 G equivale a ~0,2 grau de rumo -->
+          <x><noise type="gaussian"><mean>0</mean><stddev>0.001</stddev></noise></x>
+          <y><noise type="gaussian"><mean>0</mean><stddev>0.001</stddev></noise></y>
+          <z><noise type="gaussian"><mean>0</mean><stddev>0.001</stddev></noise></z>
+        </magnetometer>
       </sensor>
       <sensor name="barometro" type="air_pressure">
         <pose>0 0 .045 0 0 0</pose>
         <always_on>true</always_on>
         <update_rate>20</update_rate>
         <topic>/s500/barometro</topic>
+        <air_pressure>
+          <!-- 1 Pa equivale a ~8 cm de altitude -->
+          <pressure><noise type="gaussian"><mean>0</mean><stddev>1.0</stddev></noise></pressure>
+        </air_pressure>
       </sensor>
       <sensor name="camera" type="camera">
         <pose>.15 0 -.04 0 0 0</pose>

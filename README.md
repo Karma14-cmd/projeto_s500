@@ -36,6 +36,18 @@ e fixa a origem em coordenadas WGS84 (latitude -5,36°, longitude -49,12°,
 elevação 100 m, frame ENU). Sem essa origem o GPS e a bússola não geram
 leituras georreferenciadas.
 
+GPS, bússola e barômetro têm ruído gaussiano em um perfil **baixo**, menor
+que o de sensores reais, para começar os ensaios com leituras estáveis:
+
+| Sensor | Desvio-padrão configurado | Equivalente aproximado |
+| --- | --- | --- |
+| GPS | 1,8e-6° horizontal (o Gazebo usa graus), 0,4 m vertical, 0,05 m/s | ~0,2 m horizontal |
+| Bússola | 0,001 G por eixo | ~0,2° de rumo |
+| Barômetro | 1,0 Pa | ~8 cm de altitude |
+
+Para ensaios mais realistas, aumente os `stddev` no `model.sdf`. Valores típicos
+de hardware: GPS ~1–2 m horizontal, barômetro ~3–6 Pa.
+
 Para inspecionar um tópico com a simulação em execução:
 
 ```bash
