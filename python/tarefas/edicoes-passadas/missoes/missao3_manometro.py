@@ -1,6 +1,8 @@
 import cv2
 import numpy as np
 
+from fonte_video import abrir_fonte
+
 # Variáveis de estado para o Modo de Certeza e Rastreamento
 _certeza = 0
 _travado = False
@@ -26,7 +28,7 @@ def resetar_trava():
     _ultimo_ponto_agulha = None
     _ultimo_angulo = None
 
-def processar(frame, espelhar=True):
+def processar(frame, espelhar=True, *, ao_perder=resetar_trava):
     global _certeza, _travado, _pos_travada, _frames_sem_ver
     global _hist_sen, _hist_cos, _ultimo_ponto_agulha, _ultimo_angulo
 
@@ -103,7 +105,7 @@ def processar(frame, espelhar=True):
         else:
             _frames_sem_ver += 1
             if _frames_sem_ver > 60:
-                resetar_trava()
+                ao_perder()
 
     # 4. Leitura da Agulha e Desenho na Tela
     if _pos_travada is not None:
@@ -201,16 +203,7 @@ def executar_missao_3():
     parser.add_argument("--fonte", choices=("webcam", "gazebo"), default="webcam")
     parser.add_argument("--topico", default="/s500/camera")
     args = parser.parse_args()
-    if args.fonte == "gazebo":
-        import sys
-        from pathlib import Path
-
-        sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
-        from comunicacao.camera_gazebo import CameraGazebo
-
-        cap = CameraGazebo(args.topico)
-    else:
-        cap = cv2.VideoCapture(0)
+    cap = abrir_fonte(args.fonte, args.topico)
     espelhar = args.fonte == "webcam"
     print("Missao 3 iniciada! Pressione 'r' para resetar a trava ou 'q' para sair.")
 

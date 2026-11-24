@@ -4,7 +4,7 @@ from pathlib import Path
 import struct
 import sys
 import unittest
-sys.path.insert(0,str(Path(__file__).resolve().parents[1]))
+sys.path.insert(0,str(Path(__file__).resolve().parents[2]))
 from comunicacao.ponte_gazebo_json import decodificar_servo, velocidades_motores, rotacionar, quat_para_euler
 from comunicacao.camera_gazebo import imagem_para_bgr
 

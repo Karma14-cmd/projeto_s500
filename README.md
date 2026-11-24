@@ -2,17 +2,27 @@
 
 Repositório de modelos e scripts do projeto S500 da equipe Iguanas EletroQuad.
 
+## Onde começar
+
+| Preciso de | Onde ir |
+| --- | --- |
+| Planejar as missões de 2027 | [Tarefas EletroQuad 2027](python/tarefas/2027/README.md) |
+| Executar testes ou consultar evidências | [Testes do S500](python/tarefas/testes/README.md) |
+| Consultar missões e protótipos anteriores | [Edições passadas](python/tarefas/edicoes-passadas/README.md) |
+
+## Estrutura técnica
+
 - `gazebo/`: modelos, mundos e documentação do sensor infravermelho.
 - [`gazebo/windows/`](gazebo/windows/README_voo.md): voo do S500 no Gazebo Harmonic
   no Windows 11, ligado ao ArduCopter SITL pela ponte JSON
   [`python/comunicacao/ponte_gazebo_json.py`](python/comunicacao/ponte_gazebo_json.py).
-- `python/comunicacao/`, `python/controle/`, `python/missao/` e `python/legado/`:
-  códigos de comunicação, controle e missões. Os scripts de visão em
-  `python/missao/` aceitam a webcam (padrão) ou a câmera simulada
+- `python/comunicacao/`, `python/controle/`, `python/tarefas/edicoes-passadas/missoes/` e `python/legado/`:
+  códigos de comunicação, controle e visão das missões anteriores. Os scripts em
+  `python/tarefas/edicoes-passadas/missoes/` aceitam a webcam (padrão) ou a câmera simulada
   (`--fonte gazebo`, tópico `/s500/camera`).
-- [`python/sitl/`](python/sitl/README.md): utilitários de configuração e validação
+- [`python/tarefas/testes/sitl/`](python/tarefas/testes/sitl/README.md): utilitários de configuração e validação
   ArduCopter SITL adicionados com os ensaios de 01/11/2026.
-- [`docs/validacao_sitl_2026-11-01/`](docs/validacao_sitl_2026-11-01/): relatório,
+- [`python/tarefas/testes/sitl/validacao_sitl_2026-11-01/`](python/tarefas/testes/sitl/validacao_sitl_2026-11-01/): relatório,
   parâmetros exportados e registros dos ensaios.
 
 Foram testados geofence, failsafes RC/GCS e uma missão curta de decolagem,
@@ -60,7 +70,7 @@ gz topic -l                    # lista os tópicos publicados
 gz topic -e -t /s500/gps       # mostra as mensagens do GPS
 ```
 
-O teste [`python/testes/testar_sensores_gazebo.py`](python/testes/testar_sensores_gazebo.py)
+O teste [`python/tarefas/testes/testar_sensores_gazebo.py`](python/tarefas/testes/testar_sensores_gazebo.py)
 sobe o Gazebo sem interface com o S500 estático em duas poses e verifica se os
 seis sensores publicam leituras coerentes entre elas (GPS e bússola variam,
 pressão cai com a altura, TF-Luna mede ~1,0 m e ~2,22 m, câmera entrega
@@ -68,6 +78,6 @@ quadros 640×480 diferentes). Requer Gazebo Harmonic com os bindings Python
 `gz.transport13`; os registros vão para `resultados/sensores/`.
 
 ```bash
-python python/testes/testar_sensores_gazebo.py               # ensaio completo
-python python/testes/testar_sensores_gazebo.py --validar-sdf # só valida os SDFs
+python python/tarefas/testes/testar_sensores_gazebo.py               # ensaio completo
+python python/tarefas/testes/testar_sensores_gazebo.py --validar-sdf # só valida os SDFs
 ```

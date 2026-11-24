@@ -78,9 +78,9 @@ software pode deixar a simulação abaixo da velocidade real.
 ## Validação
 
 ```powershell
-pixi run --manifest-path "%USERPROFILE%\gz-s500\pixi.toml" python python/testes/teste_ponte_gazebo.py
+pixi run --manifest-path "%USERPROFILE%\gz-s500\pixi.toml" python python/tarefas/testes/teste_ponte_gazebo.py
 # Com sessão ativa e painel de teclado fechado:
-pixi run --manifest-path "%USERPROFILE%\gz-s500\pixi.toml" python python/testes/validar_voo_sitl.py
+pixi run --manifest-path "%USERPROFILE%\gz-s500\pixi.toml" python python/tarefas/testes/validar_voo_sitl.py
 ```
 
 O ensaio integrado aprovado decolou para 2 m, enviou velocidade frontal de

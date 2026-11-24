@@ -1,0 +1,7 @@
+.git
+resultados/
+**/__pycache__/
+**/.venv/
+**/.pixi/
+*.py[cod]
+.venv-visao/

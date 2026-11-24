@@ -20,6 +20,7 @@ def main():
     parser.add_argument('--conectar', action='store_true', help='Usar os processos já iniciados')
     parser.add_argument('--parar', action='store_true', help='Encerrar somente os processos registrados desta sessão')
     parser.add_argument('--runtime', type=Path, default=Path.home()/'gz-s500')
+    parser.add_argument('--mundo', type=Path, help='SDF de voo gerado para um cenário específico')
     args = parser.parse_args()
     runtime = args.runtime
     pasta = runtime/'voo'
@@ -63,11 +64,15 @@ def main():
             parser.error('Não há sessão completa ativa.')
     elif ativos:
         parser.error('Já há sessão ativa. Use --conectar ou --parar.')
-    spec = importlib.util.spec_from_file_location('mundo_voo', PASTA_SCRIPT/'gerar_mundo_voo.py')
-    m = importlib.util.module_from_spec(spec)
-    spec.loader.exec_module(m)
-    mundo = pasta/'s500_voo.sdf'
-    m.gerar(mundo)
+    mundo = args.mundo.resolve() if args.mundo else pasta/'s500_voo.sdf'
+    if not args.conectar:
+        if args.mundo and not mundo.is_file():
+            parser.error(f'SDF não encontrado: {mundo}')
+        if not args.mundo:
+            spec = importlib.util.spec_from_file_location('mundo_voo', PASTA_SCRIPT/'gerar_mundo_voo.py')
+            m = importlib.util.module_from_spec(spec)
+            spec.loader.exec_module(m)
+            m.gerar(mundo)
     env = os.environ.copy()
     env['GZ_PARTITION'] = 's500_voo_local'
     env['GZ_SIM_RESOURCE_PATH'] = (RAIZ/'gazebo/modelos').as_posix()

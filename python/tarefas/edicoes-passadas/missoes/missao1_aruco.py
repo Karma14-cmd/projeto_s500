@@ -1,6 +1,8 @@
 import cv2
 import numpy as np
 
+from fonte_video import abrir_fonte
+
 # Inicializa o dicionário e o detector ArUco 5x5 (IDs de 0 a 999)
 aruco_dict = cv2.aruco.getPredefinedDictionary(cv2.aruco.DICT_5X5_1000)
 aruco_params = cv2.aruco.DetectorParameters()
@@ -65,16 +67,7 @@ def executar_missao_1():
     parser.add_argument("--fonte", choices=("webcam", "gazebo"), default="webcam")
     parser.add_argument("--topico", default="/s500/camera")
     args = parser.parse_args()
-    if args.fonte == "gazebo":
-        import sys
-        from pathlib import Path
-
-        sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
-        from comunicacao.camera_gazebo import CameraGazebo
-
-        cap = CameraGazebo(args.topico)
-    else:
-        cap = cv2.VideoCapture(0)
+    cap = abrir_fonte(args.fonte, args.topico)
     espelhar = args.fonte == "webcam"
     print("Missao 1 (ArUco 5x5) iniciada! Pressione 'q' na janela da camera para sair.")
 

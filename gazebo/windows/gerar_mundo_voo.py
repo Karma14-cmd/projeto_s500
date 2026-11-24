@@ -6,7 +6,7 @@ import xml.etree.ElementTree as ET
 RAIZ = Path(__file__).resolve().parents[2]
 
 
-def gerar(destino):
+def montar_mundo():
     sdf = ET.parse(RAIZ / 'gazebo/mundos/mundo_s500.sdf')
     world = sdf.getroot().find('world')
     world.remove(world.find('include'))
@@ -32,7 +32,7 @@ def gerar(destino):
     base = model.find("link[@name='base_link']")
     for x, y in [(.14,.14),(-.14,.14),(-.14,-.14),(.14,-.14)]:
         for tag in ['collision', 'visual']:
-            item = ET.SubElement(base, tag, name=f'pe_{x}_{y}')
+            item = ET.SubElement(base, tag, name=f'pe_{x}_{y}_{tag}')
             ET.SubElement(item, 'pose').text = f'{x} {y} -0.175 0 0 0'
             box = ET.SubElement(ET.SubElement(item, 'geometry'), 'box')
             ET.SubElement(box, 'size').text = '.025 .025 .27'
@@ -42,6 +42,11 @@ def gerar(destino):
                        'odom_topic':'/model/quadricoptero/odometry'}.items():
         ET.SubElement(odom, key).text = value
     world.append(model)
+    return sdf, world, model
+
+
+def gerar(destino):
+    sdf, _, _ = montar_mundo()
     sdf.write(destino, encoding='utf-8', xml_declaration=True)
 
 

@@ -76,7 +76,7 @@ def main():
     finally:
         if not sucesso:
             m.set_mode_apm('LAND')
-        pasta=Path(__file__).resolve().parents[2]/'resultados/logs/sitl'
+        pasta=Path(__file__).resolve().parents[3]/'resultados/logs/sitl'
         pasta.mkdir(parents=True,exist_ok=True)
         (pasta/'voo.json').write_text(json.dumps({'aprovado':sucesso,'amostras':amostras},indent=2),encoding='utf-8')
         m.close()

@@ -1,6 +1,8 @@
 import cv2
 import numpy as np
 
+from fonte_video import abrir_fonte
+
 # Diâmetro real da esfera segundo o regulamento (25 cm = 0.25 m)
 DIAMETRO_REAL_M = 0.25
 
@@ -18,7 +20,8 @@ def resetar_trava():
     _pos_travada = None
     _frames_sem_ver = 0
 
-def processar(frame, espelhar=True, focal_px=600.0):
+def processar(frame, espelhar=True, focal_px=600.0, *, ao_perder=resetar_trava,
+              rotulos_trava=("RASTREANDO ALVO (100%)", "MEMORIA DE ALVO (100%)")):
     global _certeza, _travado, _pos_travada, _frames_sem_ver
 
     # 1. Espelha a imagem para o modo habitual da webcam
@@ -106,7 +109,7 @@ def processar(frame, espelhar=True, focal_px=600.0):
             _frames_sem_ver += 1
             # Só destrava sozinho se tirar o celular da frente da câmera por ~2 segundos (60 frames)
             if _frames_sem_ver > 60:
-                resetar_trava()
+                ao_perder()
 
     # 4. Desenho do HUD e informações na tela
     if _pos_travada is not None:
@@ -118,7 +121,7 @@ def processar(frame, espelhar=True, focal_px=600.0):
 
         cor_alvo = (0, 255, 0) if _travado else (0, 165, 255)
         if _travado:
-            status_txt = "RASTREANDO ALVO (100%)" if _frames_sem_ver == 0 else "MEMORIA DE ALVO (100%)"
+            status_txt = rotulos_trava[0 if _frames_sem_ver == 0 else 1]
             cv2.rectangle(frame, (cx - raio - 8, cy - raio - 8),
                           (cx + raio + 8, cy + raio + 8), (0, 255, 0), 2)
         else:
@@ -148,16 +151,7 @@ def executar_missao_2():
     parser.add_argument("--fonte", choices=("webcam", "gazebo"), default="webcam")
     parser.add_argument("--topico", default="/s500/camera")
     args = parser.parse_args()
-    if args.fonte == "gazebo":
-        import sys
-        from pathlib import Path
-
-        sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
-        from comunicacao.camera_gazebo import CameraGazebo
-
-        cap = CameraGazebo(args.topico)
-    else:
-        cap = cv2.VideoCapture(0)
+    cap = abrir_fonte(args.fonte, args.topico)
     espelhar = args.fonte == "webcam"
     print("Missao 2 iniciada! Pressione 'r' para resetar a trava ou 'q' para sair.")
 

@@ -6,7 +6,7 @@ IMU, GPS, bússola, barômetro, TF-Luna e câmera publicam leituras coerentes.
 Requer Gazebo Harmonic (``gz`` e ``ruby`` no PATH) e os bindings Python
 ``gz.transport13``/``gz.msgs10``. Exemplo, a partir da raiz do repositório:
 
-    python python/testes/testar_sensores_gazebo.py
+    python python/tarefas/testes/testar_sensores_gazebo.py
 
 Os registros ficam em ``resultados/sensores/<data-hora>/`` (ignorado pelo Git).
 """
@@ -30,7 +30,7 @@ import xml.etree.ElementTree as ET
 
 MODELO = Path("gazebo/modelos/quadricoptero")
 MUNDO = Path("gazebo/mundos/mundo_s500.sdf")
-RAIZ_REPO = Path(__file__).resolve().parents[2]
+RAIZ_REPO = Path(__file__).resolve().parents[3]
 
 
 def preparar(checkout, fonte, pose):

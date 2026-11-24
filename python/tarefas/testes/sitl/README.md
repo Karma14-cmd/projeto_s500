@@ -4,15 +4,15 @@ Scripts usados nos ensaios de 01/11/2026 com ArduCopter 4.7.2 e Mission Planner.
 O ambiente ensaiado foi o SITL nativo do Windows. O WSL/Ubuntu original não foi
 acessado; não se deve atribuir a ele a configuração ou os resultados destes testes.
 
-O [relatório completo](../../docs/validacao_sitl_2026-11-01/RELATORIO_VALIDACAO.txt)
-e as [evidências](../../docs/validacao_sitl_2026-11-01/evidencias/) registram os testes
+O [relatório completo](validacao_sitl_2026-11-01/RELATORIO_VALIDACAO.txt)
+e as [evidências](validacao_sitl_2026-11-01/evidencias/) registram os testes
 de rádio/GCS, geofence e voo autônomo. Estes utilitários são independentes dos
 códigos de missão e controle já presentes no repositório; não comprovam a
 validação desses outros programas nem das provas da competição.
 
 ## Instalação
 
-No diretório `python/sitl`, usando Python 3.12:
+No diretório `python/tarefas/testes/sitl`, usando Python 3.12:
 
 ```sh
 python -m venv .venv

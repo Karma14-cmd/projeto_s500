@@ -29,11 +29,7 @@ log/
 # ==============================
 # Resultados de testes e voos
 # ==============================
-resultados/logs/
-resultados/voos/
-resultados/graficos/
-resultados/imagens/
-resultados/sensores/
+/resultados/
 
 # ==============================
 # VS Code
@@ -49,7 +45,8 @@ resultados/sensores/
 Thumbs.db
 
 # Registros gerados ao executar os utilitarios SITL.
-# Evidencias revisadas ficam em docs/validacao_sitl_2026-11-01/evidencias/.
-python/sitl/*.jsonl
-python/sitl/*.json
+# Evidencias revisadas ficam em python/tarefas/testes/sitl/validacao_sitl_2026-11-01/evidencias/.
+/python/tarefas/testes/sitl/*.jsonl
+/python/tarefas/testes/sitl/*.json
 
+.venv-visao/
