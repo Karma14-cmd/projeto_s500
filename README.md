@@ -3,6 +3,9 @@
 Repositório de modelos e scripts do projeto S500 da equipe Iguanas EletroQuad.
 
 - `gazebo/`: modelos, mundos e documentação do sensor infravermelho.
+- [`gazebo/windows/`](gazebo/windows/README_voo.md): voo do S500 no Gazebo Harmonic
+  no Windows 11, ligado ao ArduCopter SITL pela ponte JSON
+  [`python/comunicacao/ponte_gazebo_json.py`](python/comunicacao/ponte_gazebo_json.py).
 - `python/comunicacao/`, `python/controle/`, `python/missao/` e `python/legado/`:
   códigos já existentes de comunicação, controle e missões.
 - [`python/sitl/`](python/sitl/README.md): utilitários de configuração e validação

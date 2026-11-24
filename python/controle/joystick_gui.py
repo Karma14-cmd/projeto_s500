@@ -2,6 +2,11 @@ import pygame
 from pymavlink import mavutil
 import time
 import math
+import os
+import sys
+from pathlib import Path
+sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
+from comunicacao.mavlink import conectar_e_decolar, heartbeat, aguardar
 
 # ============================================================
 # CONFIGURAÇÕES
@@ -57,115 +62,21 @@ def aproximar(valor, alvo, velocidade, dt):
 # CONEXÃO COM ARDUPILOT
 # ============================================================
 
-print("==========================================")
-print("      S500 - JOYSTICK GRÁFICO")
-print("==========================================")
+veiculo = conectar_e_decolar(CONEXAO, ALTURA_DECOLAGEM)
 
-print("\nConectando ao ArduPilot...")
+# Leitura direta do sensor, somente quando conectado ao cenário Gazebo de voo.
+distancia_ir = None
+if os.environ.get('GZ_PARTITION') == 's500_voo_local':
+    from gz.transport13 import Node
+    from gz.msgs10.laserscan_pb2 import LaserScan
+    from controle.leitura_infravermelho_s500 import distancia_valida
+    node_ir = Node()
+    def receber_ir(msg):
+        global distancia_ir
+        distancia_ir = distancia_valida(msg)
+    node_ir.subscribe(LaserScan, '/s500/infravermelho/scan', receber_ir)
 
-veiculo = mavutil.mavlink_connection(CONEXAO)
-
-print("Aguardando heartbeat...")
-
-veiculo.wait_heartbeat()
-
-print("\nHEARTBEAT RECEBIDO!")
-
-print("Sistema:", veiculo.target_system)
-print("Componente:", veiculo.target_component)
-
-
-# ============================================================
-# GUIDED
-# ============================================================
-
-print("\nMudando para GUIDED...")
-
-veiculo.set_mode_apm("GUIDED")
-
-time.sleep(2)
-
-print("GUIDED configurado.")
-
-
-# ============================================================
-# ARM
-# ============================================================
-
-print("\nArmando S500...")
-
-veiculo.mav.command_long_send(
-    veiculo.target_system,
-    veiculo.target_component,
-    mavutil.mavlink.MAV_CMD_COMPONENT_ARM_DISARM,
-    0,
-    1,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0
-)
-
-veiculo.motors_armed_wait()
-
-print("S500 ARMADO!")
-
-
-# ============================================================
-# TAKEOFF
-# ============================================================
-
-print(f"\nDecolando para {ALTURA_DECOLAGEM} metros...")
-
-veiculo.mav.command_long_send(
-    veiculo.target_system,
-    veiculo.target_component,
-    mavutil.mavlink.MAV_CMD_NAV_TAKEOFF,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    ALTURA_DECOLAGEM
-)
-
-
-# ============================================================
-# AGUARDAR ALTURA
-# ============================================================
-
-while True:
-
-    msg = veiculo.recv_match(
-        type="GLOBAL_POSITION_INT",
-        blocking=True
-    )
-
-    if msg:
-
-        altitude = msg.relative_alt / 1000.0
-
-        print(
-            f"\rAltitude: {altitude:.2f} m",
-            end=""
-        )
-
-        if altitude >= ALTURA_DECOLAGEM - 0.2:
-            break
-
-
-print("\n\nALTURA ATINGIDA!")
-
-time.sleep(2)
-
-
-# ============================================================
-# INICIALIZAR PYGAME
-# ============================================================
+ultimo_heartbeat = 0.
 
 pygame.init()
 
@@ -556,6 +467,11 @@ while executando and voando:
     # ENVIAR MAVLINK
     # ========================================================
 
+    if not pygame.key.get_focused():
+        vx = vy = vz = yaw_rate = 0.0
+    if time.monotonic() - ultimo_heartbeat > 1:
+        heartbeat(veiculo)
+        ultimo_heartbeat = time.monotonic()
     enviar_velocidade()
 
 
@@ -604,6 +520,10 @@ while executando and voando:
     )
 
 
+    leitura_ir = 'fora da faixa' if distancia_ir is None else f'{distancia_ir:.2f} m'
+    if os.environ.get('GZ_PARTITION') == 's500_voo_local':
+        tela.blit(fonte_pequena.render(f'TF-Luna: {leitura_ir}', True, (100, 230, 180)), (350, 155))
+
     # Velocidades
 
     dados = [
@@ -623,7 +543,7 @@ while executando and voando:
 
         tela.blit(
             superficie,
-            (550, 480 + i * 28)
+            (550, 530 + i * 25)
         )
 
 
@@ -639,8 +559,8 @@ while executando and voando:
     instrucoes = [
         "W/S = Frente / Trás",
         "A/D = Esquerda / Direita",
-        "↑/↓ = Subir / Descer",
-        "←/→ = Girar",
+        "Cima/Baixo = Subir / Descer",
+        "Esq/Dir = Girar",
         "Q = Parada",
         "L = Pousar"
     ]
@@ -681,64 +601,15 @@ time.sleep(0.5)
 
 
 if pousando:
-
-    print("Mudando para LAND...")
-
-    veiculo.set_mode_apm("LAND")
-
-
-    # -----------------------------------------------
-    # ESPERAR POUSO
-    # -----------------------------------------------
-
-    while True:
-
-        msg = veiculo.recv_match(
-            type="GLOBAL_POSITION_INT",
-            blocking=True
-        )
-
-        if msg:
-
-            altitude = (
-                msg.relative_alt / 1000.0
-            )
-
-            print(
-                f"\rAltitude: {altitude:.2f} m",
-                end=""
-            )
-
-            if altitude <= 0.3:
-
-                break
-
-
-    print("\n\nS500 pousou!")
-
-
-# ============================================================
-# DESARMAR
-# ============================================================
-
-time.sleep(2)
-
-print("Desarmando...")
-
-veiculo.mav.command_long_send(
-    veiculo.target_system,
-    veiculo.target_component,
-    mavutil.mavlink.MAV_CMD_COMPONENT_ARM_DISARM,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0
-)
-
+    print('Mudando para LAND...', flush=True)
+    veiculo.set_mode_apm('LAND')
+    try:
+        aguardar(veiculo, 'pouso e desarmamento automático',
+                 lambda msg: msg.get_type() == 'HEARTBEAT' and not veiculo.motors_armed(), 90)
+        print('Pouso e desarmamento confirmados.', flush=True)
+    finally:
+        veiculo.close()
+        pygame.quit()
 
 pygame.quit()
 

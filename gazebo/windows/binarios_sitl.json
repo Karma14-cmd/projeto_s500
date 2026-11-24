@@ -1,0 +1,56 @@
+{
+  "origem": "CopterStable",
+  "git": "commit fbd0a3160c90a557c24ce4c38c16975532652536\nAuthor: Andrew Tridgell <andrew@tridgell.net>\nDate:   Sat Oct 3 17:20:32 2026 +1000\n\n    AP_BoardConfig: use atomic pin mode change for debug pins\n    \n    board_init_debug() runs after other threads have started, so use\n    stm32_set_line_mode() to avoid racing other pin mode changes on the\n    same port\n",
+  "arquivos": [
+    {
+      "nome": "ArduCopter.elf",
+      "url": "https://firmware.ardupilot.org/Tools/MissionPlanner/sitl/CopterStable/ArduCopter.elf",
+      "sha256": "ab0dd325620501f91b24b1d55e20ad41750961c060bc67e306f7071e9f0b390c"
+    },
+    {
+      "nome": "cygatomic-1.dll",
+      "url": "https://firmware.ardupilot.org/Tools/MissionPlanner/sitl/CopterStable/cygatomic-1.dll",
+      "sha256": "87f4cf57db1befe777b3e22e3cc4e81b2dbcff386a587e7f3d265f706340bb15"
+    },
+    {
+      "nome": "cyggcc_s-seh-1.dll",
+      "url": "https://firmware.ardupilot.org/Tools/MissionPlanner/sitl/CopterStable/cyggcc_s-seh-1.dll",
+      "sha256": "f9a352fa9215ceb9a35b67ef8c7f178906a9dcc40b3819182b63f93fecb4faea"
+    },
+    {
+      "nome": "cyggomp-1.dll",
+      "url": "https://firmware.ardupilot.org/Tools/MissionPlanner/sitl/CopterStable/cyggomp-1.dll",
+      "sha256": "46b4dd8bbc76ea82b50ac3f70397cd295896e23ae4bf0a1a7a013769599bf00c"
+    },
+    {
+      "nome": "cygiconv-2.dll",
+      "url": "https://firmware.ardupilot.org/Tools/MissionPlanner/sitl/CopterStable/cygiconv-2.dll",
+      "sha256": "e433ab6680eb509b5395f637137775dacebbc6e1ed3b564474aa87f0ca35379a"
+    },
+    {
+      "nome": "cygintl-8.dll",
+      "url": "https://firmware.ardupilot.org/Tools/MissionPlanner/sitl/CopterStable/cygintl-8.dll",
+      "sha256": "9d0c063a226965e61664bdd9b771b5d0ee16b5214720b6f0086868e04fe67cdc"
+    },
+    {
+      "nome": "cygquadmath-0.dll",
+      "url": "https://firmware.ardupilot.org/Tools/MissionPlanner/sitl/CopterStable/cygquadmath-0.dll",
+      "sha256": "75c70089e945bb5530eff463391383d6edc125b0b992ea29769a71c371d8c88e"
+    },
+    {
+      "nome": "cygssp-0.dll",
+      "url": "https://firmware.ardupilot.org/Tools/MissionPlanner/sitl/CopterStable/cygssp-0.dll",
+      "sha256": "d32da41f13052d0fe4ee3fa1be11823425a8a73d1979df5a4e55280539009133"
+    },
+    {
+      "nome": "cygstdc++-6.dll",
+      "url": "https://firmware.ardupilot.org/Tools/MissionPlanner/sitl/CopterStable/cygstdc++-6.dll",
+      "sha256": "a2d175169715f7fd69d40a581dc7c6502bc2bb75601b77a03baef6ce41da8f32"
+    },
+    {
+      "nome": "cygwin1.dll",
+      "url": "https://firmware.ardupilot.org/Tools/MissionPlanner/sitl/CopterStable/cygwin1.dll",
+      "sha256": "959048d1407074097af021708d87bdf5ac1a8f107ff963c8950cd6dc8f21afaf"
+    }
+  ]
+}
