@@ -195,7 +195,23 @@ def processar(frame, espelhar=True):
     return frame
 
 def executar_missao_3():
-    cap = cv2.VideoCapture(0)
+    import argparse
+
+    parser = argparse.ArgumentParser()
+    parser.add_argument("--fonte", choices=("webcam", "gazebo"), default="webcam")
+    parser.add_argument("--topico", default="/s500/camera")
+    args = parser.parse_args()
+    if args.fonte == "gazebo":
+        import sys
+        from pathlib import Path
+
+        sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
+        from comunicacao.camera_gazebo import CameraGazebo
+
+        cap = CameraGazebo(args.topico)
+    else:
+        cap = cv2.VideoCapture(0)
+    espelhar = args.fonte == "webcam"
     print("Missao 3 iniciada! Pressione 'r' para resetar a trava ou 'q' para sair.")
 
     while True:
@@ -204,7 +220,7 @@ def executar_missao_3():
             print("Erro ao acessar a webcam.")
             break
 
-        frame = processar(frame, espelhar=True)
+        frame = processar(frame, espelhar=espelhar)
 
         h, w = frame.shape[:2]
         cv2.drawMarker(frame, (w // 2, h // 2), (255, 255, 255), cv2.MARKER_CROSS, 20, 1)

@@ -7,7 +7,9 @@ Repositório de modelos e scripts do projeto S500 da equipe Iguanas EletroQuad.
   no Windows 11, ligado ao ArduCopter SITL pela ponte JSON
   [`python/comunicacao/ponte_gazebo_json.py`](python/comunicacao/ponte_gazebo_json.py).
 - `python/comunicacao/`, `python/controle/`, `python/missao/` e `python/legado/`:
-  códigos já existentes de comunicação, controle e missões.
+  códigos de comunicação, controle e missões. Os scripts de visão em
+  `python/missao/` aceitam a webcam (padrão) ou a câmera simulada
+  (`--fonte gazebo`, tópico `/s500/camera`).
 - [`python/sitl/`](python/sitl/README.md): utilitários de configuração e validação
   ArduCopter SITL adicionados com os ensaios de 01/11/2026.
 - [`docs/validacao_sitl_2026-11-01/`](docs/validacao_sitl_2026-11-01/): relatório,

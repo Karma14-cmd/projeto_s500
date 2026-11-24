@@ -6,6 +6,7 @@ import sys
 import unittest
 sys.path.insert(0,str(Path(__file__).resolve().parents[1]))
 from comunicacao.ponte_gazebo_json import decodificar_servo, velocidades_motores, rotacionar, quat_para_euler
+from comunicacao.camera_gazebo import imagem_para_bgr
 
 
 class PonteTeste(unittest.TestCase):
@@ -35,6 +36,15 @@ class PonteTeste(unittest.TestCase):
         self.assertAlmostEqual(r,0)
         self.assertAlmostEqual(p,0)
         self.assertAlmostEqual(y,math.pi/2)
+
+    def test_conversao_camera_rgb_para_bgr(self):
+        from gz.msgs10 import image_pb2
+        msg=image_pb2.Image(width=2,height=1,step=6,pixel_format_type=image_pb2.RGB_INT8,
+                            data=bytes([10,20,30,40,50,60]))
+        bgr=imagem_para_bgr(msg)
+        self.assertEqual(bgr.shape,(1,2,3))
+        self.assertEqual(bgr[0,0].tolist(),[30,20,10])
+        self.assertEqual(bgr[0,1].tolist(),[60,50,40])
 
 
 if __name__=='__main__':

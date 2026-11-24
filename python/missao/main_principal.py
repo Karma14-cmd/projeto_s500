@@ -26,6 +26,11 @@ ATALHOS DE OPERAÇÃO EM TEMPO REAL:
   [r] -> Reseta/Destrava o alvo da missão atual manualmente
   [e] -> Alterna Modo Espelho (ON para bancada / OFF para câmera no drone)
   [q] -> Fecha o programa com segurança
+
+FONTE DE VÍDEO:
+  python main_principal.py                 -> webcam (padrão)
+  python main_principal.py --fonte gazebo  -> câmera frontal do S500 simulado
+                                              (tópico /s500/camera)
 ================================================================================
 """
 
@@ -618,17 +623,41 @@ def processar_missao_3(frame, espelhar=True):
 # ==============================================================================
 # GERENCIADOR PRINCIPAL DE EXECUÇÃO
 # ==============================================================================
-def main():
+def abrir_fonte(fonte, topico):
+    """Abre a webcam (padrão) ou a câmera frontal do S500 no Gazebo."""
+    if fonte == "gazebo":
+        import sys
+        from pathlib import Path
+
+        sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
+        from comunicacao.camera_gazebo import CameraGazebo
+
+        return CameraGazebo(topico)
     cap = cv2.VideoCapture(0)
     cap.set(cv2.CAP_PROP_FRAME_WIDTH, 640)
     cap.set(cv2.CAP_PROP_FRAME_HEIGHT, 480)
+    return cap
+
+
+def main():
+    import argparse
+
+    parser = argparse.ArgumentParser(description="Visão das missões do S500.")
+    parser.add_argument("--fonte", choices=("webcam", "gazebo"), default="webcam",
+                        help="webcam (padrão) ou câmera simulada do Gazebo")
+    parser.add_argument("--topico", default="/s500/camera",
+                        help="tópico gz da câmera quando --fonte gazebo")
+    args = parser.parse_args()
+
+    cap = abrir_fonte(args.fonte, args.topico)
 
     if not cap.isOpened():
         print("[ERRO CRÍTICO] Não foi possível acessar a câmera.")
         return
 
     missao_atual = 1
-    modo_espelho = True
+    # A câmera do drone não precisa de espelho; a webcam de bancada sim.
+    modo_espelho = args.fonte == "webcam"
     tempo_anterior = time.time()
 
     print("=================================================================")
