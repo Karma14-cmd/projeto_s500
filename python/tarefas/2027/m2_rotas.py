@@ -1,5 +1,6 @@
 """Rotas, gabarito transcrito e pontuação da M2 no simulador."""
 import argparse
+from itertools import pairwise
 import math
 from pathlib import Path
 
@@ -22,6 +23,34 @@ ZONAS = {
     "G": ((14, 6.5), (18, 5), (18, 13), (13.5, 11.5)),
 }
 GABARITO_TREINO = {"A": 40, "B": -20, "C": 40, "D": 20, "E": -20}
+
+LADO_ARENA = 18
+DECOLAGEM = (1, 9)
+PONTOS_ZONAS = {
+    "S": DECOLAGEM, "A": (6, 3), "B": (6, 15), "C": (9.6, 9),
+    "D": (13.4, 3), "E": (14, 15), "G": (16, 9),
+}
+
+
+def pontos_rota(rota):
+    return tuple((zona, PONTOS_ZONAS[zona]) for zona in ROTAS[rota][0])
+
+
+def zona_em(x, y, *, margem=0):
+    """Retorna a zona do ponto, com margem opcional para ignorar a fronteira."""
+    for zona, vertices in ZONAS.items():
+        dentro = False
+        perto_da_borda = False
+        for (x1, y1), (x2, y2) in pairwise(vertices + vertices[:1]):
+            dx, dy = x2 - x1, y2 - y1
+            t = max(0, min(1, ((x - x1) * dx + (y - y1) * dy) / (dx * dx + dy * dy)))
+            if math.hypot(x - x1 - t * dx, y - y1 - t * dy) <= margem:
+                perto_da_borda = True
+            if (y1 > y) != (y2 > y) and x < x1 + (y - y1) * dx / dy:
+                dentro = not dentro
+        if dentro and not perto_da_borda:
+            return zona
+    return None
 
 
 def ler_gabarito(texto):
